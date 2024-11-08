@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Configurar Autenticación de Dos Factores</h3>
+                </div>
+                <div class="card-body">
+                    <ol class="mb-4">
+                        <li class="mb-3">Descarga Google Authenticator en tu teléfono</li>
+                        <li class="mb-3">Escanea este código QR con la aplicación:</li>
+                        <div class="text-center">
+                            <img src="{% url 'auth:generar_qr' qr_url %}" alt="Código QR">
+                        </div>
+                        <li class="mb-3">Ingresa el código que aparece en tu aplicación:</li>
+                    </ol>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Verificar y Activar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

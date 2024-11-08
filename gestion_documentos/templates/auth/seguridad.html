@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Seguridad{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Configuración de Seguridad</h2>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Autenticación de Dos Factores</h5>
+        {% if user.totpdevice_set.filter.exists %}
+            <p class="text-success">✓ 2FA está actualmente activado</p>
+            <a href="{% url 'auth:desactivar_2fa' %}" class="btn btn-danger">Desactivar 2FA</a>
+        {% else %}
+            <p>La autenticación de dos factores no está activada.</p>
+            <p>Activa 2FA para aumentar la seguridad de tu cuenta.</p>
+            <a href="{% url 'auth:configurar_2fa' %}" class="btn btn-primary">Activar 2FA</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

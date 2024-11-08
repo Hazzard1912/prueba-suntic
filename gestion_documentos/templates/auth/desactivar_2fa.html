@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Desactivar Autenticación de Dos Factores</h3>
+            </div>
+            <div class="card-body">
+                <p class="text-danger">¿Estás seguro que deseas desactivar la autenticación de dos factores?</p>
+                <p>Esta acción reducirá la seguridad de tu cuenta.</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-danger">Desactivar 2FA</button>
+                        <a href="{% url 'auth:seguridad' %}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0">Documentos</h2>
+        {% if not is_approver %}
+        <a href="{% url 'documents:document_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Cargar Documento
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Título</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                <tr>
+                    <td>
+                        <a href="{% url 'documents:document_detail' document.pk %}" class="text-decoration-none">
+                            {{ document.titulo }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if document.status == 'aprobado' %}
+                        <span class="badge bg-success">Aprobado</span>
+                        {% elif document.status == 'pendiente' %}
+                        <span class="badge bg-warning">Pendiente</span>
+                        {% else %}
+                        <span class="badge bg-danger">Rechazado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'documents:document_preview' document.pk %}" class="btn btn-sm btn-outline-primary" title="Preview">
+                                Vista Previa
+                            </a>
+                            {% if document.owner == user %}
+                            <a href="{% url 'documents:document_edit' document.pk %}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                Editar
+                            </a>
+                            <a href="{% url 'documents:document_delete' document.pk %}" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                Eliminar
+                            </a>
+                            {% endif %}
+                            {% if document.approver == user %}
+                            <a href="{% url 'documents:document_approve' document.pk %}" class="btn btn-sm btn-outline-success" title="Aprobar">
+                                Editar Estado
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
